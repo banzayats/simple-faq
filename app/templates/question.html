@@ -5,9 +5,17 @@
         <h3>{{ question }}</h3>
         {% if answers %}
         <h4>Answers</h4>
-        {% for a in answers %}
-        <div class="well well-sm">
-            <p><strong>{{ a.text }}</strong></p>
+        {% for a in answers|sort(attribute='votes', reverse=True) %}
+        <div class="well well-sm clearfix">
+            <p class="clearfix"><strong>{{ a.text }}</strong>
+            <span class="pull-right">Votes <span class="badge">{{ a.votes }}</span></span>
+            </p>
+            {% if current_user.is_authenticated() %}
+                <form action="" method="get" name="{{ a.id }}" role="form" class="pull-right">
+                    <input id="csrf_token" name="vote" type="hidden" value="{{ a.id }}">
+                    <button type="submit" class="btn btn-sm btn-default">Vote</button>
+                </form>
+            {% endif %}
         </div>
         {% endfor %}
         {% else%}

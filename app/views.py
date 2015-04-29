@@ -35,6 +35,11 @@ def details(id):
         flash('Question with ID ' + id + ' not found.', 'warning')
         return redirect(url_for('questions'))
     answers = Answer.query.filter_by(question_id=id).all()
+    vote = request.args.get('vote')
+    if vote != None:
+        answer = Answer.query.filter_by(id=vote).first()
+        answer.votes += 1
+        db.session.commit()
     form = AnswerForm(request.form)
     if form.validate_on_submit():
         answer = Answer(text=form.text.data,

@@ -27,4 +27,5 @@ class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text)
     date = db.Column(db.DateTime)
+    votes = db.Column(db.Integer, default=0)
     question_id = db.Column(db.Integer, db.ForeignKey('question.id'))
