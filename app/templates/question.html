@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h3>{{ question }}</h3>
+        {% if answers %}
+        <h4>Answers</h4>
+        {% for a in answers %}
+        <div class="well well-sm">
+            <p><strong>{{ a.text }}</strong></p>
+        </div>
+        {% endfor %}
+        {% else%}
+        <p>No answers yet</p>
+        {% endif %}
+        {% if current_user.is_authenticated() %}
+        <h4>Add answer</h4>
+        <form action="" method="post" name="answer" role="form">
+            {{form.hidden_tag()}}
+            <div class="form-group">
+                <label for="text">Please enter your answer:</label>
+                {{form.text(class_='form-control')}}
+                {% for error in form.errors.text %}
+                <span class="text-danger">{{error}}</span>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <hr>
+        {% endif %}
+        <input action="action" type="button" value="Back" onclick="history.go(-1);" class="btn btn-default"/></div>
+    </div>
+</div>
+{% endblock %}

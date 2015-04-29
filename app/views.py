@@ -4,8 +4,8 @@ from werkzeug import check_password_hash, generate_password_hash
 from app import app
 from app import db
 from app import login_manager
-from forms import LoginForm, RegisterForm, QuestionForm
-from models import User, Question
+from forms import LoginForm, RegisterForm, QuestionForm, AnswerForm
+from models import User, Question, Answer
 from datetime import datetime
 
 
@@ -27,6 +27,24 @@ def index():
 def questions():
     questions = Question.query.all()
     return render_template("questions.html", questions=questions)
+
+@app.route('/questions/<id>', methods = ['GET', 'POST'])
+def details(id):
+    question = Question.query.filter_by(id=id).first()
+    if question == None:
+        flash('Question with ID ' + id + ' not found.', 'warning')
+        return redirect(url_for('questions'))
+    answers = Answer.query.filter_by(question_id=id).all()
+    form = AnswerForm(request.form)
+    if form.validate_on_submit():
+        answer = Answer(text=form.text.data,
+                        date=datetime.utcnow(),
+                        owner=question)
+        db.session.add(answer)
+        db.session.commit()
+        flash('Your answer succesfully posted', 'success')
+        return redirect(url_for('questions'))
+    return render_template("question.html", question=question, form=form, answers=answers)
 
 
 @app.route('/add', methods = ['GET', 'POST'])

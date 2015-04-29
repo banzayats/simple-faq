@@ -20,7 +20,7 @@ class Question(db.Model):
     answers = db.relationship('Answer', backref='owner', lazy='dynamic')
 
     def __repr__(self):
-        return self.title
+        return self.text
 
 
 class Answer(db.Model):

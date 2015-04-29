@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-<h3>Questions</h3>
-{% for q in questions %}
-<p>{{ q.text }}</p>
-{% endfor %}
+<div class="row">
+    <div class="col-md-12">
+        <h3>Questions</h3>
+        {% for q in questions %}
+        <div class="well well-sm">
+            <p><strong>{{ q.text }}</strong> <a class="pull-right" href="/questions/{{ q.id }}">details</a></p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

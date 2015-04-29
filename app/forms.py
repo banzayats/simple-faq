@@ -20,3 +20,7 @@ class RegisterForm(Form):
 
 class QuestionForm(Form):
     text = TextField('Question', [Required()])
+
+
+class AnswerForm(Form):
+    text = TextField('Answer', [Required()])
