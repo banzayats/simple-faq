@@ -31,11 +31,38 @@
                     <li>
                         <a href="#">Questions</a>
                     </li>
+                    {% if current_user.is_authenticated() %}
+                    <li>
+                        <p class="navbar-text text-success">
+                        (Logged in as: {{ current_user.name }})
+                        </p>
+                    </li>
+                    <li>
+                        <a href="/logout">Logout</a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <p class="navbar-text">(Not logged in)</p>
+                    </li>
+                    <li>
+                        <a href="/login">Login</a>
+                    </li>
+                    <li>
+                        <a href="/register">Register</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
     <div class="container">
+    {% for category, msg in get_flashed_messages(with_categories=true) %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-{{ category }}" role="{{ category }}">{{ msg }}</div>
+        </div>
+    </div>
+    {% endfor %}
     {% block content %}
     Empty page
     {% endblock %}
@@ -55,8 +82,8 @@
     <!-- /.container -->
 
     <!-- jQuery -->
-    <script src="/static/js/jquery.js' %}" type="text/javascript"></script>
+    <script src="static/js/jquery.js" type="text/javascript"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="/static/js/bootstrap.min.js' %}" type="text/javascript"></script>
+    <script src="static/js/bootstrap.min.js" type="text/javascript"></script>
 </body>
 </html>

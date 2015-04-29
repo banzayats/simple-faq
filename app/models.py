@@ -1,10 +1,11 @@
 from app import db
+from flask.ext.login import UserMixin
 
-
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     email = db.Column(db.String(255), index=True, unique=True)
+    password = db.Column(db.String(255))
     questions = db.relationship('Question', backref='owner', lazy='dynamic')
 
     def __repr__(self):

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Register form</h2>
+<form action="" method="post" name="login" role="form">
+    {{form.hidden_tag()}}
+    <div class="form-group">
+        <label for="username">Please enter your name:</label>
+        {{form.name(class_='form-control')}}
+    </div>
+    <div class="form-group"> 
+        <label for="username">Please enter your email:</label>
+        {{form.email(class_='form-control')}}
+        {% for error in form.errors.email %}
+        <span class="text-danger">{{error}}</span>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <label for="password">Please enter your password:</label>
+        {{form.password(class_='form-control')}}
+    </div>
+    <div class="form-group">
+        <label for="password">Please confirm password:</label>
+        {{form.confirm(class_='form-control')}}
+        {% for error in form.errors.confirm %}
+        <span class="text-danger">{{error}}</span>
+        {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-default">Register</button>
+</form>
+{% endblock %}
