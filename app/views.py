@@ -1,24 +1,48 @@
 from flask import render_template, request, flash, session, redirect, url_for
-from flask.ext.login import login_user, logout_user
+from flask.ext.login import login_user, logout_user, current_user, login_required
 from werkzeug import check_password_hash, generate_password_hash
 from app import app
 from app import db
 from app import login_manager
-from forms import LoginForm, RegisterForm
+from forms import LoginForm, RegisterForm, QuestionForm
 from models import User, Question
+from datetime import datetime
 
 
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
 
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect(url_for('login'))
+
 
 @app.route('/')
 @app.route('/index')
 def index():
-    questions = Question.query.all()
-    return render_template("index.html", questions=questions)
+    return render_template("index.html")
 
+@app.route('/questions')
+def questions():
+    questions = Question.query.all()
+    return render_template("questions.html", questions=questions)
+
+
+@app.route('/add', methods = ['GET', 'POST'])
+@login_required
+def add():
+    form = QuestionForm(request.form)
+    if form.validate_on_submit():
+        question = Question(text=form.text.data,
+                            date=datetime.utcnow(),
+                            owner=current_user)
+        db.session.add(question)
+        db.session.commit()
+        flash('Your question succesfully posted', 'success')
+        return redirect(url_for('questions'))
+    return render_template('add_question.html',
+        form = form)
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():

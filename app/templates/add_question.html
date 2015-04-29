@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Post your question</h2>
+<form action="" method="post" name="question" role="form">
+    {{form.hidden_tag()}}
+    <div class="form-group">
+        <label for="text">Please enter body of your question:</label>
+        {{form.text(class_='form-control')}}
+        {% for error in form.errors.text %}
+        <span class="text-danger">{{error}}</span>
+        {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+{% endblock %}

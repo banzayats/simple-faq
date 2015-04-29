@@ -14,10 +14,17 @@ class User(db.Model, UserMixin):
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255))
     text = db.Column(db.Text)
     date = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    answers = db.relationship('Answer', backref='owner', lazy='dynamic')
 
     def __repr__(self):
         return self.title
+
+
+class Answer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.Text)
+    date = db.Column(db.DateTime)
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id'))

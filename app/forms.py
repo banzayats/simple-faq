@@ -16,3 +16,7 @@ class RegisterForm(Form):
         Required(),
         EqualTo('password', message='Passwords must match')
         ])
+
+
+class QuestionForm(Form):
+    text = TextField('Question', [Required()])
