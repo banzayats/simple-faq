@@ -2,33 +2,33 @@
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-        <h2>Register form</h2>
+        <h2>{{ _('Register form') }}</h2>
         <form action="" method="post" name="register" role="form">
             {{form.hidden_tag()}}
             <div class="form-group">
-                <label for="username">Please enter your name:</label>
+                <label for="username">{{ _('Please enter your name') }}:</label>
                 {{form.name(class_='form-control')}}
             </div>
             <div class="form-group"> 
-                <label for="username">Please enter your email:</label>
+                <label for="username">{{ _('Please enter your email') }}:</label>
                 {{form.email(class_='form-control')}}
                 {% for error in form.errors.email %}
                 <span class="text-danger">{{error}}</span>
                 {% endfor %}
             </div>
             <div class="form-group">
-                <label for="password">Please enter your password:</label>
+                <label for="password">{{ _('Please enter your password') }}:</label>
                 {{form.password(class_='form-control')}}
             </div>
             <div class="form-group">
-                <label for="password">Please confirm password:</label>
+                <label for="password">{{ _('Please confirm password') }}:</label>
                 {{form.confirm(class_='form-control')}}
                 {% for error in form.errors.confirm %}
                 <span class="text-danger">{{error}}</span>
                 {% endfor %}
             </div>
-            <button type="submit" class="btn btn-success">Register</button>
-            <input action="action" type="button" value="Back" onclick="history.go(-1);" class="btn btn-default"/>
+            <button type="submit" class="btn btn-success">{{ _('Register') }}</button>
+            <input action="action" type="button" value="{{ _('Back') }}" onclick="history.go(-1);" class="btn btn-default"/>
         </form>
     </div>
 </div>

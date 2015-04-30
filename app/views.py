@@ -1,13 +1,20 @@
 from flask import render_template, request, flash, session, redirect, url_for
+from flask.ext.babel import gettext
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from werkzeug import check_password_hash, generate_password_hash
 from app import app
 from app import db
 from app import login_manager
+from app import babel
+from config import LANGUAGES
 from forms import LoginForm, RegisterForm, QuestionForm, AnswerForm
 from models import User, Question, Answer
 from datetime import datetime
 
+
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(LANGUAGES.keys())
 
 @login_manager.user_loader
 def load_user(id):
@@ -32,7 +39,7 @@ def questions():
 def details(id):
     question = Question.query.filter_by(id=id).first()
     if question == None:
-        flash('Question with ID ' + id + ' not found.', 'warning')
+        flash(gettext('Question with ID %(id)s not found.', id = id), 'warning')
         return redirect(url_for('questions'))
     answers = Answer.query.filter_by(question_id=id).all()
     vote = request.args.get('vote')
@@ -47,7 +54,7 @@ def details(id):
                         owner=question)
         db.session.add(answer)
         db.session.commit()
-        flash('Your answer succesfully posted', 'success')
+        flash(gettext('Your answer succesfully posted'), 'success')
         return redirect(url_for('questions'))
     return render_template("question.html", question=question, form=form, answers=answers)
 
@@ -62,7 +69,7 @@ def add():
                             owner=current_user)
         db.session.add(question)
         db.session.commit()
-        flash('Your question succesfully posted', 'success')
+        flash(gettext('Your question succesfully posted'), 'success')
         return redirect(url_for('questions'))
     return render_template('add_question.html',
         form = form)
@@ -74,10 +81,10 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
-            flash('Welcome %s' % user.name, 'success')
+            flash(gettext('Welcome %(name)s', name = user.name), 'success')
             return redirect(url_for('index'))
         else:
-            flash('Wrong email or password', 'danger')
+            flash(gettext('Wrong email or password'), 'danger')
             return redirect(url_for('login'))
     return render_template('login.html',
         form = form)
@@ -95,14 +102,19 @@ def register():
     if form.validate_on_submit():
         exist = User.query.filter_by(email=form.email.data).first()
         if exist:
-            flash('User with such email already exists', 'danger')
+            flash(gettext('User with such email already exists'), 'danger')
             return redirect(url_for('register'))
         user = User(name=form.name.data, email=form.email.data, \
             password=generate_password_hash(form.password.data))
         db.session.add(user)
         db.session.commit()
         login_user(user)
-        flash('Thanks for registering', 'success')
+        flash(gettext('Thanks for registering'), 'success')
         return redirect(url_for('index'))
     return render_template("register.html",
         form=form)
+
+@app.errorhandler(404)
+def page_not_found(error):
+    flash(gettext('The requested URL was not found on the server.'), 'danger')
+    return redirect(url_for('index'))

@@ -4,39 +4,39 @@
     <div class="col-md-12">
         <h3>{{ question }}</h3>
         {% if answers %}
-        <h4>Answers</h4>
+        <h4>{{ _('Answers') }}</h4>
         {% for a in answers|sort(attribute='votes', reverse=True) %}
         <div class="well well-sm clearfix">
             <p class="clearfix"><strong>{{ a.text }}</strong>
-            <span class="pull-right">Votes <span class="badge">{{ a.votes }}</span></span>
+            <span class="pull-right">{{ _('Votes') }} <span class="badge">{{ a.votes }}</span></span>
             </p>
             {% if current_user.is_authenticated() %}
                 <form action="" method="get" name="{{ a.id }}" role="form" class="pull-right">
                     <input id="csrf_token" name="vote" type="hidden" value="{{ a.id }}">
-                    <button type="submit" class="btn btn-sm btn-default">Vote</button>
+                    <button type="submit" class="btn btn-sm btn-default">{{ _('Vote') }}</button>
                 </form>
             {% endif %}
         </div>
         {% endfor %}
         {% else%}
-        <p>No answers yet</p>
+        <p>{{ _('No answers yet') }}</p>
         {% endif %}
         {% if current_user.is_authenticated() %}
-        <h4>Add answer</h4>
+        <h4>{{ _('Add answer') }}</h4>
         <form action="" method="post" name="answer" role="form">
             {{form.hidden_tag()}}
             <div class="form-group">
-                <label for="text">Please enter your answer:</label>
+                <label for="text">{{ _('Please enter your answer') }}:</label>
                 {{form.text(class_='form-control')}}
                 {% for error in form.errors.text %}
                 <span class="text-danger">{{error}}</span>
                 {% endfor %}
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="submit" class="btn btn-default">{{ _('Submit') }}</button>
         </form>
         <hr>
         {% endif %}
-        <input action="action" type="button" value="Back" onclick="history.go(-1);" class="btn btn-default"/></div>
+        <input action="action" type="button" value="{{ _('Back') }}" onclick="history.go(-1);" class="btn btn-default"/></div>
     </div>
 </div>
 {% endblock %}

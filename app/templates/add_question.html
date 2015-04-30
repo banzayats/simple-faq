@@ -2,17 +2,17 @@
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-        <h2>Post your question</h2>
+        <h2>{{ _('Post your question') }}</h2>
         <form action="" method="post" name="question" role="form">
             {{form.hidden_tag()}}
             <div class="form-group">
-                <label for="text">Please enter body of your question:</label>
+                <label for="text">{{ _('Please enter body of your question') }}:</label>
                 {{form.text(class_='form-control')}}
                 {% for error in form.errors.text %}
                 <span class="text-danger">{{error}}</span>
                 {% endfor %}
             </div>
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit" class="btn btn-success">{{ _('Submit') }}</button>
             <input action="action" type="button" value="Back" onclick="history.go(-1);" class="btn btn-default"/>
         </form>
     </div>

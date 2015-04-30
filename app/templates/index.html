@@ -2,12 +2,12 @@
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-        <h3>This is a question-and-answer website</h3>
-        <p>Unregistered users may view the qestions and answers.</p>
-        <p>Registered users may post new qestions and answers. They also can vote for answers.</p>
-        <a class="btn btn-default" href="/questions" role="button">Open questions list</a>
+        <h3>{{ _('This is a question-and-answer website') }}</h3>
+        <p>{{ _('Unregistered users may view the qestions and answers.') }}</p>
+        <p>{{ _('Registered users may post new qestions and answers. They also can vote for answers.') }}</p>
+        <a class="btn btn-default" href="/questions" role="button">{{ _('Open questions list') }}</a>
         {% if current_user.is_authenticated() %}
-        <a class="btn btn-default" href="/add" role="button">Add question</a>
+        <a class="btn btn-default" href="/add" role="button">{{ _('Add question') }}</a>
         {% endif %}
     </div>
 </div>
