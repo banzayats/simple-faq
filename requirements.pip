@@ -1,0 +1,9 @@
+Flask
+Flask-Babel
+Flask-Login
+Flask-Migrate
+Flask-SQLAlchemy
+Flask-WTF
+MySQL-python
+SQLAlchemy
+Werkzeug
